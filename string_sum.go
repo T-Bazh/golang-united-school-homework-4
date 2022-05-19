@@ -25,23 +25,42 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
+	var op1, op2 string
 	input = strings.TrimSpace(input)
 	if len(input) == 0 {
 		return output, errorEmptyInput
 	}
 	nums := strings.Split(input, "+")
 	if len(nums) != 2 {
-		return output, errorNotTwoOperands
+		nums := strings.Split(input, "-")
+		if len(nums) < 2 || len(nums) > 3 {
+			return output, errorNotTwoOperands
+		}
+		if len(nums) == 2 {
+			op1 = strings.TrimSpace(nums[0])
+			op2 = "-" + strings.TrimSpace(nums[1])
+		} else if len(nums) == 3 {
+			op3 := strings.TrimSpace(nums[0])
+			if len(op3) == 0 {
+				op1 = "-" + strings.TrimSpace(nums[1])
+				op2 = "-" + strings.TrimSpace(nums[2])
+			}
+		} else {
+			return output, errorNotTwoOperands
+		}
+	} else {
+		op1 = strings.TrimSpace(nums[0])
+		op2 = strings.TrimSpace(nums[1])
 	}
-	op1 := strings.TrimSpace(nums[0])
 	num1, err := strconv.Atoi(op1)
 	if err != nil {
-		return output, err
+		myErr := errors.New("error when converting first operand into number")
+		return output, myErr
 	}
-	op2 := strings.TrimSpace(nums[1])
 	num2, err := strconv.Atoi(op2)
 	if err != nil {
-		return output, err
+		myErr := errors.New("error when converting second operand into number")
+		return output, myErr
 	}
 	sum := num1 + num2
 	sumOfNums := strconv.Itoa(sum)
