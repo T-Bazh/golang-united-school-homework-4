@@ -52,17 +52,15 @@ func StringSum(input string) (output string, err error) {
 		op1 = strings.TrimSpace(nums[0])
 		op2 = strings.TrimSpace(nums[1])
 	}
-	num1, err := strconv.Atoi(op1)
+	num1, err := strconv.ParseInt(op1, 10, 32)
 	if err != nil {
-		myErr := errors.New("error when converting first operand into number")
-		return output, myErr
+		return output, err
 	}
-	num2, err := strconv.Atoi(op2)
+	num2, err := strconv.ParseInt(op2, 10, 32)
 	if err != nil {
-		myErr := errors.New("error when converting second operand into number")
-		return output, myErr
+		return output, err
 	}
 	sum := num1 + num2
-	sumOfNums := strconv.Itoa(sum)
+	sumOfNums := strconv.Itoa(int(sum))
 	return sumOfNums, nil
 }
